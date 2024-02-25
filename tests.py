@@ -42,10 +42,11 @@ class TestBooksCollector:
         book.set_book_genre(name, genre)
         assert book.get_books_with_specific_genre('Мультфильмы') == [name]
 
-    def test_get_books_genre_two_books(self, book):
-        book.add_new_book('Кэрри')
-        book.add_new_book('Винни Пух и все-все-все')
-        assert len(book.get_books_genre()) == 2
+    @pytest.mark.parametrize('name, genre', [['Винни Пух и все-все-все','Мультфильмы']])
+    def test_get_books_for_children_book_is_for_child(self, book, name, genre):
+        book.add_new_book(name)
+        book.set_book_genre(name, genre)
+        assert book.get_books_for_children() == [name]
 
     @pytest.mark.parametrize('name, genre', [['Кэрри', 'Ужасы']])
     def test_get_books_for_children_book_is_adult(self,book, name, genre):
@@ -64,7 +65,7 @@ class TestBooksCollector:
         book.delete_book_from_favorites('Кэрри')
         assert book.get_list_of_favorites_books() == []
 
-    def test_get_list_of_favorites_books_teo_books(self, book):
+    def test_get_list_of_favorites_books_two_books(self, book):
         book.add_new_book('Винни Пух и все-все-все')
         book.add_new_book('Кэрри')
         book.add_book_in_favorites('Винни Пух и все-все-все')
