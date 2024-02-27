@@ -25,33 +25,30 @@ class TestBooksCollector:
     # напиши свои тесты ниже
     # чтобы тесты были независимыми в каждом из них создавай отдельный экземпляр класса BooksCollector()
     @pytest.mark.parametrize('name, genre', [['Кэрри', 'Ужасы'], ['Винни Пух и все-все-все','Мультфильмы']])
-    def test_set_book_genre_two_different(self, book, name, genre):
+    def test_set_book_genre_one_book_positive(self, book, name, genre):
         book.add_new_book(name)
         book.set_book_genre(name, genre)
         assert book.get_book_genre(name) == genre
 
     @pytest.mark.parametrize('name, genre', [['Кэрри', 'Ужасы'], ['Винни Пух и все-все-все','Мультфильмы']])
-    def test_get_book_genre_two_different(self, book, name, genre):
+    def test_get_book_genre_one_book_positive(self, book, name, genre):
         book.add_new_book(name)
         book.set_book_genre(name, genre)
         assert book.get_book_genre(name) == genre
 
-    @pytest.mark.parametrize('name, genre', [['Винни Пух и все-все-все','Мультфильмы']])
-    def test_get_books_with_specific_genre_multiplication(self, book, name, genre):
-        book.add_new_book(name)
-        book.set_book_genre(name, genre)
-        assert book.get_books_with_specific_genre('Мультфильмы') == [name]
+    def test_get_books_with_specific_genre_multiplication(self, book):
+        book.add_new_book('Винни Пух и все-все-все')
+        book.set_book_genre('Винни Пух и все-все-все', 'Мультфильмы')
+        assert book.get_books_with_specific_genre('Мультфильмы') == ['Винни Пух и все-все-все']
 
-    @pytest.mark.parametrize('name, genre', [['Винни Пух и все-все-все','Мультфильмы']])
-    def test_get_books_for_children_book_is_for_child(self, book, name, genre):
-        book.add_new_book(name)
-        book.set_book_genre(name, genre)
-        assert book.get_books_for_children() == [name]
+    def test_get_books_for_children_book_is_for_child(self, book):
+        book.add_new_book('Винни Пух и все-все-все')
+        book.set_book_genre('Винни Пух и все-все-все', 'Мультфильмы')
+        assert book.get_books_for_children() == ['Винни Пух и все-все-все']
 
-    @pytest.mark.parametrize('name, genre', [['Кэрри', 'Ужасы']])
-    def test_get_books_for_children_book_is_adult(self,book, name, genre):
-        book.add_new_book(name)
-        book.set_book_genre(name, genre)
+    def test_get_books_for_children_book_is_adult(self,book):
+        book.add_new_book('Кэрри')
+        book.set_book_genre('Кэрри', 'Ужасы')
         assert book.get_books_for_children() == []
 
     def test_add_book_in_favorites_one_book_positive(self, book):
